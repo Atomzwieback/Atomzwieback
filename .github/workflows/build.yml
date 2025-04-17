@@ -4,7 +4,7 @@ on:
   push:
   workflow_dispatch:
   schedule:
-    - cron:  '32 * * * *' 
+    - cron: '32 * * * *'
       
 jobs:
 
@@ -24,11 +24,7 @@ jobs:
 
     - name: Get dependencies
       run: |
-        go get -v -t -d ./...
-        if [ -f Gopkg.toml ]; then
-            curl https://raw.githubusercontent.com/golang/dep/master/install.sh | sh
-            dep ensure
-        fi
+        go mod tidy
 
     - name: Generate README
       run: go run main.go
