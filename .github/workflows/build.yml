@@ -23,11 +23,19 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Get dependencies
-      run: |
-        go mod tidy
+$1$2if [ -f go.mod ]; then
+$2  go mod tidy
+$2else
+$2  echo "No go.mod, skipping module tidy"
+$2fi
 
     - name: Generate README
-      run: go run main.go
+      run: |
+        if [ -f go.mod ]; then
+          go run main.go
+        else
+          GO111MODULE=off go run main.go
+        fi
 
     - name: Commit and push if changed
       run: |-
